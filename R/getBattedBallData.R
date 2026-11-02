@@ -19,7 +19,7 @@ getBattedBallData <- function(playerid, year, n) {
     dplyr::filter(!is.na(hc_x)) %>% # Make sure that ball has hit location data
     dplyr::filter(hit_distance_sc >= 127) %>% # Make sure ball gets past infield
     dplyr::filter(events != "home_run") %>% # Ignore home runs
-    select(hc_x, hc_y, hit_distance_sc, game_date, launch_speed, launch_angle, events)
+    select(hc_x, hc_y, hit_distance_sc, game_date, launch_speed, launch_angle, events, player_name)
 
   ## Get distance data based on hc coordinates and spray angle, and place within region
   # https://beanumber.github.io/abdwr3e/C_statcast.html#sec-spray-angle

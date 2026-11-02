@@ -1,11 +1,11 @@
-# outfieldR
-outfieldR is an R package that finds optimal outfielder positioning given a set of fielders and a batter. It is currently in development and is not yet ready for production use.
+# outfieldr
+outfieldr is an R package that finds optimal outfielder positioning given a set of fielders and a batter. It is currently in development and is not yet ready for production use.
 
 ## Get Started
-outfieldR can be installed in any R script via devtools:
+outfieldr can be installed in any R script via devtools:
 ``` r (devtools)
 install.packages('devtools')
-devtools::install_github(repo = "larrry27/outfieldR")
+devtools::install_github(repo = "larrry27/outfieldr")
 ```
 
 Once the package is installed, any of its functions can be used. Get a feel for batted ball data with `getBattedBallData` or outfielder statistics with `getFielderStats` before using `optimizeOutfield` to generate optimal outfielder positions.
@@ -30,10 +30,10 @@ Once available, code to be populated here.
 ```
 
 ## Planned Features
-outfieldR is currently in development, with the following features to be added:
+outfieldr is currently in development, with the following features to be added:
 - Per-park adjustment for outfielder positioning
 - Ability to input a projected lineup for a team, with a list of optimal positions returned
 - Ability to toggle experimental Arizona Fall League outfield positioning rules
 
 ## Authors
-outfieldR is maintained by [Larry Donahue](https://www.lbdfour.com) and was originally a submission for Northwestern's MSDS 457 - Sports Management Analytics course. I can be contacted via the links on my website.
+outfieldr is maintained by [Larry Donahue](https://www.lbdfour.com) and was originally a submission for Northwestern's MSDS 457 - Sports Management Analytics course. I can be contacted via the links on my website.

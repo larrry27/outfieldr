@@ -1,10 +1,22 @@
 Package: outfieldr
-Title: Outfieldr
+Title: Outfieldr - Calculates optimal outfielder positioning based on batter
 Version: 0.1
 Authors@R: c(person("Larry", "Donahue", , "lbdeefour@gmail.com", role = c("aut", "cre")))
 Description: R Package that calculates optimal outfielder positioning based on batter and park, based on fielding assumptions.
 License: MIT + file LICENSE
 URL: https://github.com/larrry27/outfieldR
+BugReports: https://github.com/larrry27/outfieldr/issues
+Depends:
+    R (>= 4.1.0)
+Imports: 
+    baseballr,
+	from,
+	dplyr,
+	ggplot2,
+	ggforce,
+	sf,
+	data.table,
+	lattice
 Config/roxygen2/version: 8.0.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

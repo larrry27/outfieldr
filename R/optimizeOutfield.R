@@ -7,6 +7,12 @@
 #' @param rightfieldId The MLB player ID for the right fielder to optimize. Input -9 to use a league-average RF.
 #' @param n The maximum number of batted balls that are taken.
 #' @param year The season for which data is grabbed
+#' @import ggplot2
+#' @import ggforce
+#' @import dplyr
+#' @import baseballr
+#' @import sf
+#' @import lattice
 #' @export
 #' @examples {optimizeOutfield(691718,803011,671976,695731,50,2026)}
 
@@ -15,9 +21,11 @@ optimizeOutfield <- function(batterId, leftfieldId, centerfieldId, rightfieldId,
   ### Get list of batted balls by region
   ## LF: 1/4, CF: 2/5, RF: 3/6
   
-  ballsToAssessLF <- getBattedBallData(batterId, year, n) %>% dplyr::filter(region %in% c(1,4))
-  ballsToAssessCF <- getBattedBallData(batterId, year, n) %>% dplyr::filter(region %in% c(2,5))
-  ballsToAssessRF <- getBattedBallData(batterId, year, n) %>% dplyr::filter(region %in% c(3,6))
+  ballsToAssess <- getBattedBallData(batterId, year, n)
+  
+  ballsToAssessLF <- ballsToAssess %>% dplyr::filter(region %in% c(1,4))
+  ballsToAssessCF <- ballsToAssess %>% dplyr::filter(region %in% c(2,5))
+  ballsToAssessRF <- ballsToAssess %>% dplyr::filter(region %in% c(3,6))
   
   ## If outfielder can reach batted ball location with .4 seconds to spare, it's a catch
   ## The circle in which an outfielder can start and still reach the ball is that ball's "competitive area"
@@ -38,9 +46,9 @@ optimizeOutfield <- function(batterId, leftfieldId, centerfieldId, rightfieldId,
   compAreasRF <- data.frame(x=NULL,y=NULL)
   
   ## Iterate over applicable batted balls for each fielder
-  ballsToAssessLF <- ballsToAssessLF %>% rowwise() %>% mutate(compAreasLF = list(getCompetitiveArea(t_x, t_y, (hangTime-.4) * leftFielder$sprint_speed))) %>% ungroup()
-  ballsToAssessCF <- ballsToAssessCF %>% rowwise() %>% mutate(compAreasCF = list(getCompetitiveArea(t_x, t_y, (hangTime-.4) * cntrFielder$sprint_speed))) %>% ungroup()
-  ballsToAssessRF <- ballsToAssessRF %>% rowwise() %>% mutate(compAreasRF = list(getCompetitiveArea(t_x, t_y, (hangTime-.4) * rghtFielder$sprint_speed))) %>% ungroup()
+  ballsToAssessLF <- ballsToAssessLF %>% rowwise() %>% mutate(compAreasLF = list(getCompetitiveArea(t_x, t_y, (hangTime-.4) * leftFielder$sprint_speed + leftFielder$jump))) %>% ungroup()
+  ballsToAssessCF <- ballsToAssessCF %>% rowwise() %>% mutate(compAreasCF = list(getCompetitiveArea(t_x, t_y, (hangTime-.4) * cntrFielder$sprint_speed + cntrFielder$jump))) %>% ungroup()
+  ballsToAssessRF <- ballsToAssessRF %>% rowwise() %>% mutate(compAreasRF = list(getCompetitiveArea(t_x, t_y, (hangTime-.4) * rghtFielder$sprint_speed + rghtFielder$jump))) %>% ungroup()
   
   ## Combine competitive areas for each batted ball
   compAreasLF <- bind_rows(ballsToAssessLF$compAreasLF)
@@ -65,9 +73,9 @@ optimizeOutfield <- function(batterId, leftfieldId, centerfieldId, rightfieldId,
   
   ### Plot (Left Field)
   outfieldPlotLF <- ggplot(ballsToAssessLF) +
-    geom_circle(aes(x0=t_x, y0=t_y, r= (hangTime - .4) * leftFielder$sprint_speed), alpha=0.05, fill="#EEBBBB", linetype="dotted") +
+    geom_circle(aes(x0=t_x, y0=t_y, r= (hangTime - .4) * leftFielder$sprint_speed + leftFielder$jump), alpha=0.05, fill="#EEBBBB", linetype="dotted") +
     scale_size_identity() +
-    labs(title = paste(leftFielder$last_name..first_name, "vs", ballsToAssessLF[8]$player_name,"| n=",nrow(ballstoAssessLF))) +
+    labs(title = paste(leftFielder$last_name..first_name, "vs", ballsToAssessLF[8]$player_name,"| n=",nrow(ballsToAssessLF))) +
     coord_cartesian(xlim = c(-350,350), ylim = c(-50,475)) +
     annotate(geom="curve",x=90.23,xend=-90.23,y=90.23,yend=90.23,curvature=.722,color = "black",linetype="dotted",linewidth=1) +
     #annotate(geom="curve",x=90.23,xend=-90.23,y=90.23,yend=90.23,curvature=.722,color = "tan",fill="tan",linewidth=1) +
@@ -87,9 +95,9 @@ optimizeOutfield <- function(batterId, leftfieldId, centerfieldId, rightfieldId,
   
   ### Plot (Center Field)
   outfieldPlotCF <- ggplot(ballsToAssessCF) +
-    geom_circle(aes(x0=t_x, y0=t_y, r= (hangTime - .4) * cntrFielder$sprint_speed), alpha=0.05, fill="#BBEEBB", linetype="dotted") +
+    geom_circle(aes(x0=t_x, y0=t_y, r= (hangTime - .4) * cntrFielder$sprint_speed + cntrFielder$jump), alpha=0.05, fill="#BBEEBB", linetype="dotted") +
     scale_size_identity() +
-    labs(title = paste(cntrFielder$last_name..first_name, "vs", ballsToAssessLF[8]$player_name,"| n=",nrow(ballstoAssessCF))) +
+    labs(title = paste(cntrFielder$last_name..first_name, "vs", ballsToAssessLF[8]$player_name,"| n=",nrow(ballsToAssessCF))) +
     coord_cartesian(xlim = c(-350,350), ylim = c(-50,475)) +
     annotate(geom="curve",x=90.23,xend=-90.23,y=90.23,yend=90.23,curvature=.722,color = "black",linetype="dotted",linewidth=1) +
     #annotate(geom="curve",x=90.23,xend=-90.23,y=90.23,yend=90.23,curvature=.722,color = "tan",fill="tan",linewidth=1) +
@@ -109,9 +117,9 @@ optimizeOutfield <- function(batterId, leftfieldId, centerfieldId, rightfieldId,
   
   ### Plot (Right Field)
   outfieldPlotRF <- ggplot(ballsToAssessRF) +
-    geom_circle(aes(x0=t_x, y0=t_y, r= (hangTime - .4) * rghtFielder$sprint_speed), alpha=0.05, fill="#BBBBEE", linetype="dotted") +
+    geom_circle(aes(x0=t_x, y0=t_y, r= (hangTime - .4) * rghtFielder$sprint_speed + rghtFielder$jump), alpha=0.05, fill="#BBBBEE", linetype="dotted") +
     scale_size_identity() +
-    labs(title = paste(rghtFielder$last_name..first_name, "vs", ballsToAssessLF[8]$player_name,"| n=",nrow(ballstoAssessRF))) +
+    labs(title = paste(rghtFielder$last_name..first_name, "vs", ballsToAssessLF[8]$player_name,"| n=",nrow(ballsToAssessRF))) +
     coord_cartesian(xlim = c(-350,350), ylim = c(-50,475)) +
     annotate(geom="curve",x=90.23,xend=-90.23,y=90.23,yend=90.23,curvature=.722,color = "black",linetype="dotted",linewidth=1) +
     annotate(geom="segment",x = 0, y = 0, xend = -230, yend = 230, color = "black", linewidth=1) +
@@ -129,7 +137,7 @@ optimizeOutfield <- function(batterId, leftfieldId, centerfieldId, rightfieldId,
   print(outfieldPlotRF)
   
   cat(paste("Optimal Positioning vs.",ballsToAssessLF[8]$player_name[1]),"\n",
-  paste(n,"most recent batted balls analyzed -",nrow(ballstoAssessLF),"/",nrow(ballstoAssessCF),"/",nrow(ballstoAssessRF),"split"),"\n",
+  paste(n,"most recent batted balls analyzed -",nrow(ballsToAssessLF),"/",nrow(ballsToAssessCF),"/",nrow(ballsToAssessRF),"split"),"\n",
   paste("LF -",leftFielder$last_name..first_name,"| x =",optimalPointLF[1],"| y = ",optimalPointLF[2]),"\n",
   paste("CF -",cntrFielder$last_name..first_name,"| x =",optimalPointCF[1],"| y = ",optimalPointCF[2]),"\n",
   paste("RF -",rghtFielder$last_name..first_name,"| x =",optimalPointRF[1],"| y = ",optimalPointRF[2]))

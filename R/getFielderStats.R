@@ -5,6 +5,7 @@
 #' @param playerid The MLB player ID for which data is grabbed
 #' @param year The season for which data is grabbed
 #' @returns A dataframe containing fielder statistics: position, reaction/burst/route outfield jump components, sprint speed
+#' @import baseballr
 #' @export
 #' @examples {getFielderStats(671976, 2026)}
 
@@ -28,5 +29,6 @@ getFielderStats <- function(playerid, year) {
       select(year.x, last_name..first_name, player_id, position, sprint_speed, rel_league_burst_distance, rel_league_reaction_distance, rel_league_routing_distance)
   }
   
+  joinedData$jump <- joinedData$rel_league_burst_distance + joinedData$rel_league_reaction_distance + joinedData$rel_league_routing_distance
   joinedData
 }

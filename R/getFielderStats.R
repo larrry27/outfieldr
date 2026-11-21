@@ -10,13 +10,22 @@
 #' @examples {getFielderStats(671976, 2026)}
 
 getFielderStats <- function(playerid, year) {
-  # Get sprint speed
+  
+  ## Error handling
+  if(is.numeric(playerid) == FALSE) { stop("playerid must be a positive integer, or within (-7,-8,-9).") }
+  if((playerid < 0 & !(playerid %in% c(-7,-8,-9))) | playerid %% 1 != 0) { stop("playerid must be a positive integer, or within (-7,-8,-9).") }
+  if(is.numeric(year) == FALSE) { stop("Year value must be an integer greater than or equal to 2020.") }
+  if( year <= 2019 | year %% 1 != 0) { stop("Year value must be an integer greater than or equal to 2020.") }
+  
+  ## Get sprint speed
   sprintData <- statcast_leaderboards(leaderboard="sprint_speed", year=year,min_pa=10)
   
-  # Get outfielder statistics
+  ## Get outfielder statistics
   fieldData <- read.csv(paste0("https://baseballsavant.mlb.com/jump?year=",year,"&position=&team=&min=10&csv=true"))
 
-  # Join by playerID and return result. If playerID is -7, -8, or -9, return average stats instead
+  ## Join by playerID and return result.
+  # If playerID is -7, -8, or -9, return average stats instead.
+  # If no results, stop function and warn user.
   if (playerid == -7) { # Average LF
     joinedData <- data.frame(year.x = year, last_name..first_name = "Average, LF", player_id = -7, position = "LF", sprint_speed = 28, rel_league_burst_distance = 0, rel_league_reaction_distance = 0, rel_league_routing_distance = 0)
   } else if (playerid == -8) { # Average CF
@@ -28,6 +37,8 @@ getFielderStats <- function(playerid, year) {
       dplyr::filter(player_id == playerid) %>%
       select(year.x, last_name..first_name, player_id, position, sprint_speed, rel_league_burst_distance, rel_league_reaction_distance, rel_league_routing_distance)
   }
+  
+  if(nrow(joinedData) == 0) { stop("No data was found for specified player and year.") }
   
   joinedData$jump <- joinedData$rel_league_burst_distance + joinedData$rel_league_reaction_distance + joinedData$rel_league_routing_distance
   joinedData

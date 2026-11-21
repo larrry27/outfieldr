@@ -4,7 +4,15 @@
 \alias{optimizeOutfield}
 \title{"Generates three plots that show optimal outfielder positioning given three fielders and a batter."}
 \usage{
-optimizeOutfield(batterId, leftfieldId, centerfieldId, rightfieldId, n, year)
+optimizeOutfield(
+  batterId,
+  leftfieldId,
+  centerfieldId,
+  rightfieldId,
+  balls,
+  year,
+  parkid
+)
 }
 \arguments{
 \item{batterId}{The MLB player ID for which batted ball data is grabbed}
@@ -15,13 +23,15 @@ optimizeOutfield(batterId, leftfieldId, centerfieldId, rightfieldId, n, year)
 
 \item{rightfieldId}{The MLB player ID for the right fielder to optimize. Input -9 to use a league-average RF.}
 
-\item{n}{The maximum number of batted balls that are taken.}
+\item{balls}{The maximum number of batted balls that are taken, to be split across fielders.}
 
-\item{year}{The season for which data is grabbed}
+\item{year}{The season for which data is grabbed.}
+
+\item{parkid}{The integer ID for park for which data is grabbed.}
 }
 \description{
 optimizeOutfield.R
 }
 \examples{
-{optimizeOutfield(691718,803011,671976,695731,50,2026)}
+{optimizeOutfield(691718,803011,671976,695731,50,2026,11)}
 }

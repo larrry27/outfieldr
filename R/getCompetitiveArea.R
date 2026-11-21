@@ -24,4 +24,5 @@ getCompetitiveArea <- function(startingX, startingY, catchRadius) {
   
   ## Return pointList
   pointList
+  
 }

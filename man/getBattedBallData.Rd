@@ -4,7 +4,7 @@
 \alias{getBattedBallData}
 \title{"Generate a list of n batted balls for a player in a season."}
 \usage{
-getBattedBallData(playerid, year, n)
+getBattedBallData(playerid, year, n, parkid)
 }
 \arguments{
 \item{playerid}{The MLB player ID for which the batted ball data is grabbed}
@@ -12,6 +12,8 @@ getBattedBallData(playerid, year, n)
 \item{year}{The season for which batted ball data is grabbed}
 
 \item{n}{The number of batted balls grabbed, sorted by date descending / recency}
+
+\item{parkid}{The integer ID of the park in which batted balls are grabbed.}
 }
 \value{
 A dataframe containing batted ball information: location, region, hang time, launch speed/angle
@@ -23,5 +25,5 @@ getBattedBallData.R
 Generates a list of the last n batted balls by a given player, in a given season
 }
 \examples{
-{getBattedBallData(805367, 2026, 200)}
+{getBattedBallData(805367, 2026, 200, 11)}
 }

@@ -9,7 +9,7 @@ install.packages('devtools')
 devtools::install_github(repo = "larrry27/outfieldr")
 ```
 
-Once the package is installed, any of its functions can be used. Examples and other details can be found in Getting Started.
+Once the package is installed, any of its functions can be used. Examples and other details can be found in the [Get Started](/vignettes/get-started.html) vignette.
 
 ## Planned Features
 outfieldr is currently in development, with the following features to be added (not an exhaustive list):

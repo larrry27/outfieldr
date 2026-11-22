@@ -1,0 +1,49 @@
+---
+title: "Methodology"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Methodology}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{css, echo=FALSE}
+@font-face { 
+font-family: Bahnschrift;
+	src: url('./assets/BAHNSCHRIFT.TTF');
+}
+body {
+  background-color: #000008;
+  font-family: Bahnschrift, sans-serif;
+  color: #ffffff;
+}
+h1, h2, h3 {
+  color: #ffffff;
+  font-family: Bahnschrift, sans-serif;
+}
+a {
+  text-decoration: none;
+  color: #8080EE;
+}
+pre:not([class]) {
+  background-color: #333368;
+  color: white
+}
+code {
+  background-color: #333368;
+  color: white
+}
+```
+
+## References
+Bouzarth, Elizabeth, Benjamin, Grannan, et al. 2021. "Swing Shift: A Mathematical Approach to Defensive Positioning in Baseball." *Journal of Quantitative Analysis in Sports* 17 (1): 47-55.
+Montes, Anthony. 2021. “Optimizing Outfield Positioning: Creating an Area-Based Alignment Using Outfielder Ability and Hitter Tendencies.” *Baseball Research Journal* 50 (1).
+Melville, William, Wise, Samuel, et al. 2024. "Optimizing Baseball Fielder Positioning with Consideration for Adaptable Hitters." MIT Sloan Sports Analytics Conference.
+Murray, Alan, Ortiz, Antonio, and Cho, Seonga. 2022. "Enhancing strategic defensive positioning and performance in the outfield." *Journal of Geographical Systems* 24 (2): 223-240.

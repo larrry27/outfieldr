@@ -89,4 +89,4 @@ optimizeOutfield(691718,803011,671976,695731,250,2026,11)
 
 The above function outputs three plots, one for each fielder, alongside a print statement showing the centroid of the optimal hull and the split of balls analyzed. Each circle on the plot represents a batted ball and its catchable radius, while the yellow area represents the optimal hull.
 
-![](ex.png){width="600"}
+![](./images/exPlot.png){width="600"}

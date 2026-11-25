@@ -53,7 +53,7 @@ install.packages('devtools')
 devtools::install_github(repo = "larrry27/outfieldr")
 ```
 
-Once the package is installed, any of its functions can be used.
+Once the package is installed, any of its functions can be used via calling `library(outfieldr)`.
 
 ## Optimal Positioning Algorithm
 

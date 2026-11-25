@@ -23,8 +23,8 @@ getBattedBallData <- function(playerid, year, n, parkid) {
   if(year <= 2019 | year %% 1 != 0) { stop("Year value must be an integer greater than or equal to 2020.") }
   if(is.numeric(n) == FALSE) { stop("n must be a positive integer.") }
   if(n <= 0 | n %% 1 != 0) { stop("n must be a positive integer.") }
-  if(is.numeric(parkid) == FALSE) { stop("Invalid parkid. Must be a positive integer between 1 and 37.") }
-  if((parkid < 1 | parkid > 37) | parkid %% 1 != 0) { stop("Invalid parkid. Must be a positive integer between 1 and 37.") }
+  if(is.numeric(parkid) == FALSE) { stop("Invalid parkid. Must be a positive integer between 1 and 38.") }
+  if((parkid < 1 | parkid > 38) | parkid %% 1 != 0) { stop("Invalid parkid. Must be a positive integer between 1 and 38.") }
   
   ## Load parks data and get Statcast data
   battedBallData <- statcast_search(paste0(year,"-03-01"),paste0(year,"-12-01"),playerid = playerid,player_type = 'batter')

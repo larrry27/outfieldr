@@ -57,11 +57,13 @@ Once the package is installed, any of its functions can be used.
 
 ## Optimal Positioning Algorithm
 
-The algorithm to calculate optimal outfielder positioning takes the last *n* batted balls by a hitter per field region (left, center, right). Each ball has their own ***catchable radius*** for a given fielder, determined by their sprint speed and outfielder jump statistics from [Baseball Savant](https://baseballsavant.mlb.com/). The center of the area, also called the ***optimal hull***, with the most overlap of the circles created by these balls and their catch radii constitutes optimal positioning for an outfielder versus that batter, as it allows them to catch the most balls. There are a few assumptions used:
+The algorithm to calculate optimal outfielder positioning takes the last *n* batted balls by a hitter per field region (left, center, right). Each ball has their own ***competitive area*** for a given fielder, determined by their sprint speed and outfielder jump statistics from [Baseball Savant](https://baseballsavant.mlb.com/). The center of the area, also called the ***optimal hull***, with the most overlap of the circles created by these balls and their catch radii constitutes optimal positioning for an outfielder versus that batter, as it allows them to catch the most balls. There are a few assumptions used:
 
 1.  **The left and right fielders do not consider balls within the spray angles covered by center field.** This is currently π/9 in either direction.
 2.  **A catch is made if an outfielder reaches the batted ball location within .4 seconds of it hitting the ground.**
 3.  **Balls are not considered if they do not land within fair territory of the chosen park.** At this time, this prevents home run robberies and outs in foul territory.
+
+I talk about this in detail in the 'Methodology' vignette.
 
 ## Examples
 

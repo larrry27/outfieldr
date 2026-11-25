@@ -5,7 +5,7 @@
 #' @param leftfieldId The MLB player ID for the left fielder to optimize. Input -7 to use a league-average LF.
 #' @param centerfieldId The MLB player ID for the center fielder to optimize. Input -8 to use a league-average CF.
 #' @param rightfieldId The MLB player ID for the right fielder to optimize. Input -9 to use a league-average RF.
-#' @param balls The maximum number of batted balls that are taken, to be split across fielders.
+#' @param n The maximum number of batted balls that are taken, to be split across fielders.
 #' @param year The season for which data is grabbed.
 #' @param parkid The integer ID for park for which data is grabbed.
 #' @import ggplot2
@@ -13,6 +13,8 @@
 #' @import dplyr
 #' @import baseballr
 #' @import sf
+#' @rawNamespace importFrom("grDevices", "chull")
+#' @rawNamespace importFrom("utils", "head", "read.csv")
 #' @rawNamespace import(data.table, except = c(first, last, between))
 #' @import lattice
 #' @export
@@ -33,8 +35,8 @@ optimizeOutfield <- function(batterId, leftfieldId, centerfieldId, rightfieldId,
   if(year <= 2019 | year %% 1 != 0) { stop("Year value must be an integer greater than or equal to 2020.") }
   if(is.numeric(n) == FALSE) { stop("n must be a positive integer.") }
   if(n <= 0 | n %% 1 != 0) { stop("n must be a positive integer.") }
-  if(is.numeric(parkid) == FALSE) { stop("Invalid parkid. Must be a positive integer between 1 and 37.") }
-  if((parkid < 1 | parkid > 37) | parkid %% 1 != 0) { stop("Invalid parkid. Must be a positive integer between 1 and 37.") }
+  if(is.numeric(parkid) == FALSE) { stop("Invalid parkid. Must be a positive integer between 1 and 38.") }
+  if((parkid < 1 | parkid > 38) | parkid %% 1 != 0) { stop("Invalid parkid. Must be a positive integer between 1 and 38.") }
   
   ## Get list of batted balls by region
   # LF: 1/4, CF: 2/5, RF: 3/6

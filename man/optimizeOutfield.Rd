@@ -9,7 +9,7 @@ optimizeOutfield(
   leftfieldId,
   centerfieldId,
   rightfieldId,
-  balls,
+  n,
   year,
   parkid
 )
@@ -23,7 +23,7 @@ optimizeOutfield(
 
 \item{rightfieldId}{The MLB player ID for the right fielder to optimize. Input -9 to use a league-average RF.}
 
-\item{balls}{The maximum number of batted balls that are taken, to be split across fielders.}
+\item{n}{The maximum number of batted balls that are taken, to be split across fielders.}
 
 \item{year}{The season for which data is grabbed.}
 

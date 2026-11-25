@@ -42,7 +42,7 @@ getBattedBallData <- function(playerid, year, n, parkid) {
   filteredData$region <- ifelse(filteredData$hit_distance_sc >= 240,3,0) + ifelse(abs(filteredData$sprayAngle) < (pi/9),2,ifelse(filteredData$sprayAngle > 0,3,1))
 
   ## Filter out balls that are outside the polygon constructed by the outfield wall
-  filteredData$inPark <- point.in.polygon(filteredData$t_x, filteredData$t_y, outfieldr::parks[[6]][[parkid]]$x, outfieldr::parksparks[[6]][[parkid]]$y)
+  filteredData$inPark <- point.in.polygon(filteredData$t_x, filteredData$t_y, outfieldr::parks[[6]][[parkid]]$x, outfieldr::parks[[6]][[parkid]]$y)
   filteredData <- filteredData %>% dplyr::filter(inPark == TRUE)
   
   ## If no batted ball data exists, stop function and warn user.
